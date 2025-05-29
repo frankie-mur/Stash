@@ -13,13 +13,22 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.stash.project.db.DatabaseFactory
 
 @Composable
 @Preview
 fun App() {
-    var newItem by remember { mutableStateOf("") }
-    val items = remember { mutableStateListOf("https://example.com", "https://kotlinlang.org") }
+    var newUrl by remember { mutableStateOf("") }
+    var articles = remember { mutableStateListOf<String>() }
+    val coroutineScope = rememberCoroutineScope()
+
+    //Launches in background
+    LaunchedEffect(Unit) {
+        DatabaseFactory.init()
+        articles.addAll(DatabaseFactory.getAllArticles())
+    }
 
     MaterialTheme {
         Column(
@@ -31,19 +40,24 @@ fun App() {
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 TextField(
-                    value = newItem,
-                    onValueChange = { newItem = it },
+                    value = newUrl,
+                    onValueChange = { newUrl = it },
                     label = { Text("Enter URL") },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(8.dp),
                     singleLine = true
                 )
-                Button(onClick = {
-                    if (newItem.isNotBlank()) {
-                        items.add(newItem)
-                        newItem = ""
-                    }
-                },
+                Button(
+                    onClick = {
+                        if (newUrl.isNotBlank()) {
+                            // Launch in coroutine to not block main thread
+                            coroutineScope.launch {
+                                DatabaseFactory.addArticle(newUrl, "", "")
+                                articles = DatabaseFactory.getAllArticles().toMutableStateList()
+                                newUrl = ""
+                            }
+                        }
+                    },
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.height(56.dp)
                 ) {
@@ -59,7 +73,7 @@ fun App() {
                 state = scrollState,
                 modifier = Modifier.fillMaxHeight()
             ){
-                items(items) { item ->
+                items(articles) { item ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()

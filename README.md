@@ -1,11 +1,25 @@
-This is a Kotlin Multiplatform project targeting Desktop.
+# 📚 Welcome to Stash
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+With the recent [news of Pocket shutting down](https://www.pcmag.com/news/pocket-shut-down-the-read-it-later-app-will-close-on-july-8) 😢, I decided to build **Stash** — a simple, local, and **free** read-it-later desktop app.
+
+> ⚠️ Currently under development
+
+---
+
+## 🛠️ Tech Stack
+
+- **Kotlin Multiplatform** (Compose for Desktop)
+- **SQLite** (for local data persistence)
+
+This project uses Kotlin Multiplatform to enable cross-platform support, currently targeting the desktop.
+
+---
+
+## 📖 Learn More
+
+Curious about Kotlin Multiplatform?  
+Check out the official guide: [Getting Started with Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)
 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
+
