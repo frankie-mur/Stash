@@ -21,3 +21,6 @@ captures
 
 # Log file
 *.log
+
+#sql lite
+*.db
