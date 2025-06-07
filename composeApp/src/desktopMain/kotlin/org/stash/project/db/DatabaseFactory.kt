@@ -14,7 +14,11 @@ object DatabaseFactory {
         }
     }
 
-    fun addArticle(url: String, title: String, content: String) {
+    fun addArticle(
+        url: String,
+        title: String,
+        content: String,
+    ) {
         transaction(db) {
             Articles.insert {
                 it[Articles.title] = title
@@ -24,12 +28,13 @@ object DatabaseFactory {
         }
     }
 
-    fun getAllArticles(): List<String> = transaction(db) {
-       Articles.selectAll().map { it[Articles.title] }
-    }
+    fun getAllArticles(): List<String> =
+        transaction(db) {
+            Articles.selectAll().map { it[Articles.title] }
+        }
 
-    fun getArticlesByTitle(title: String): List<String> = transaction(db) {
-        Articles.select { Articles.title eq title }.map { it[Articles.title] }
-    }
-
+    fun getContentByTitle(title: String): String =
+        transaction(db) {
+            Articles.select { Articles.title eq title }.map { it[Articles.content] }.firstOrNull() ?: "No Content Found"
+        }
 }

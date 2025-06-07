@@ -8,5 +8,5 @@ data class Article(
     val url: String,
     val dateAdded: LocalDateTime = LocalDateTime.now(),
     val isRead: Boolean = false,
-    val tags: List<String> = emptyList()
+    val tags: List<String> = emptyList(),
 )
